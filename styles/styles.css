@@ -1,0 +1,85 @@
+body {
+    background: #eee;
+    text-align: center;
+    padding: 0 25px;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+#main {
+    width: 500px;
+    margin: auto;
+    text-align: left;
+    background: white;
+    padding: 50px 60px;
+    border: solid #ddd;
+    border-width: 0 1px 1px 1px;
+    position: relative;
+}
+
+#main h1 {
+    margin-top: 0;
+    font-size: 35px;
+}
+
+.message {
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.username {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.timeStamp {
+    color: red;
+}
+
+.rooms {
+    width: 200px;
+    background-color: #dedede;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    list-style: none;
+}
+
+.messageRoomName {
+    color: pink;
+}
+
+.newRoom {
+    position: absolute;
+    top: 40px;
+    right: 20px;
+}
+
+.textBox {
+    width: 420px;
+    margin-bottom: 15px;
+    height: 25px;
+    font-size: 15px;
+    padding-left: 5px;
+}
+
+.submitButton {
+    height: 29px;
+    width: 50px;
+    border-radius: 2px;
+    background-color: #f0f0f0;
+    border: 1px solid black
+}
+
+.submitButton:hover {
+    background-color: #f0f0f9;
+}
+
+.friend {
+    background-color: yellow;
+}
+
+
+
+
