@@ -77,17 +77,19 @@ ChatterBox.prototype.roomDisplay = function() {
 
   this.ajax({
     url: that.url,
-    data: {limit: 100, order: '-createdAt'},
+    // data: {limit: 100, order: '-createdAt'},
     type: 'GET',
     success: function(data){
-
-      _.each(data.results, function(message) {
+      data = JSON.parse(data);
+      _.each(data, function(message) {
         if(!(message.roomname in that.roomList)) {
           var room = that.sanatize(message.roomname);
+          // var room = message.roomname;
           that.roomList[room] = true;
           $('.rooms').append('<option value="' + room + '">' + room + '</option>');
         }
       });
+
     }
   });
 };
@@ -114,10 +116,11 @@ ChatterBox.prototype.postMessage = function(username, message, roomname) {
 ChatterBox.prototype.messageDisplay = function(messages) {
   var that = this;
 
-  // messages = messages.reverse();
+  messages = messages.reverse();
 
   var results = [];
   _.each(messages, function(message) {
+    console.log(message);
 
     var classes = "username";
     if(message.username in that.friends) {
@@ -176,6 +179,8 @@ $(document).ready(function() {
     event.preventDefault();
 
     chat.room = $(this).find('input').val();
+    console.log('Room is now', chat.room);
+    $(this).find('input').val('');
   });
 
   chat.roomDisplay();
