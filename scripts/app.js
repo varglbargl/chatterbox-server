@@ -1,7 +1,9 @@
 var ChatterBox = function(){
-  this.url = 'https://api.parse.com/1/classes/chatterbox';
+  // this.url = 'https://api.parse.com/1/classes/chatterbox';
+  this.url = 'http://127.0.0.1:8080/';
   this.numMessages = 10;
-  this.username = (prompt('What is your name?') || 'anonymous');
+  // this.username = (prompt('What is your name?') || 'anonymous');
+  this.username = 'anonymous';
   this.room = undefined;
   this.friends = {};
   this.roomList = {};
@@ -169,8 +171,12 @@ $(document).ready(function() {
     chat.room = $(this).find('input').val();
   });
 
-  setInterval(function(){
-    chat.roomDisplay();
-    chat.getMessages();
-  }, 1000);
+
+  chat.roomDisplay();
+  chat.getMessages();
+
+  // setInterval(function(){
+  //   chat.roomDisplay();
+  //   chat.getMessages();
+  // }, 1000);
 });
