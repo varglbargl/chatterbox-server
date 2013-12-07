@@ -12,7 +12,8 @@ var ChatterBox = function(){
 
 ChatterBox.prototype.ajax = function(options) {
   $.ajax({
-    url: options.url,
+    // url: options.url,
+    url: 'http://127.0.0.1:8080/classes/' + this.room + '/',
     data: options.data,
     type: options.type,
     contentType: options.contentType,
@@ -43,13 +44,13 @@ ChatterBox.prototype.getMessages = function() {
   var that = this;
   var query = {limit: this.numMessages, order: '-createdAt'};
 
-  if (this.room !== undefined) {
-    query['where'] = {roomname: this.room};
-  }
+  // if (this.room !== undefined) {
+    // query['where'] = {roomname: this.room};
+  // }
   // var query = '';
 
   this.ajax({
-    url: that.url,
+    // url: that.url,
     data: query,
     type: 'GET',
     success: function(data){
@@ -76,7 +77,7 @@ ChatterBox.prototype.roomDisplay = function() {
   var that = this;
 
   this.ajax({
-    url: that.url,
+    // url: that.url,
     // data: {limit: 100, order: '-createdAt'},
     type: 'GET',
     success: function(data){
@@ -120,7 +121,6 @@ ChatterBox.prototype.messageDisplay = function(messages) {
 
   var results = [];
   _.each(messages, function(message) {
-    console.log(message);
 
     var classes = "username";
     if(message.username in that.friends) {
@@ -158,6 +158,7 @@ ChatterBox.prototype.sanatize = function(string) {
 
 $(document).ready(function() {
   var chat = new ChatterBox();
+  window.chat = chat;
 
   $('.textMessage').submit(function(event){
     event.preventDefault();
@@ -186,8 +187,13 @@ $(document).ready(function() {
   chat.roomDisplay();
   chat.getMessages();
 
+  setInterval(function(){
+    chat.roomDisplay();
+    chat.getMessages();
+  }, 1000);
+
   // setInterval(function(){
-  //   chat.roomDisplay();
-  //   chat.getMessages();
-  // }, 1000);
+
+  //   chat.postMessage('ChatBot', (Math.floor(Math.random()*10000)).toString(32), Math.floor(Math.random()*5));
+  // }, 4000);
 });
