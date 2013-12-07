@@ -1,6 +1,6 @@
 var ChatterBox = function(){
   // this.url = 'https://api.parse.com/1/classes/chatterbox';
-  this.url = 'http://127.0.0.1:8080/';
+  this.url = 'http://127.0.0.1:8080/classes/room1/';
   this.numMessages = 10;
   // this.username = (prompt('What is your name?') || 'anonymous');
   this.username = 'anonymous';
@@ -45,6 +45,7 @@ ChatterBox.prototype.getMessages = function() {
   if (this.room !== undefined) {
     query['where'] = {roomname: this.room};
   }
+  // var query = '';
 
   this.ajax({
     url: that.url,
@@ -106,7 +107,7 @@ ChatterBox.prototype.postMessage = function(username, message, roomname) {
 ChatterBox.prototype.messageDisplay = function(messages) {
   var that = this;
 
-  messages = messages.reverse();
+  // messages = messages.reverse();
 
   var results = [];
 

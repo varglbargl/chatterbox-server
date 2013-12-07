@@ -26,6 +26,12 @@ exports.handleRequest = function(request, response) {
   var responseData;
 
   console.log("Serving request type " + request.method + " for url " + request.url);
+  // console.log(request.body);
+  // var body = "";
+  // request.on('data', function (chunk) {
+  //   body += chunk;
+  // });
+  // console.log(body);
 
   var path = getPath(request.url);
 
@@ -50,14 +56,27 @@ exports.handleRequest = function(request, response) {
           break;
         }
 
-        if(path[1] in classes) {
-          // push to classes value
-          classes[path[1]].push(request._postData);
-        } else {
-          // create key and create array and push
-          classes[path[1]] = [request._postData];
-        }
+        var postData = "";
+        request.on('data', function (chunk) {
+          // postData += chunk.toString();
+          postData = JSON.parse(chunk.toString());
+          // postData = JSON.parse(postData);
+
+          if(path[1] in classes) {
+            // push to classes value
+            console.log('Saving data', postData);
+            classes[path[1]].push(postData);
+          } else {
+            // create key and create array and push
+            classes[path[1]] = [postData];
+          }
+        });
+
         statusCode = 201;
+        break;
+
+      case 'OPTIONS':
+        statusCode = 200;
         break;
 
       default:
