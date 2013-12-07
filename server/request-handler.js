@@ -5,7 +5,7 @@
  * this file and include it in basic-server.js so that it actually works.
  * *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html. */
 var url = require("url");
-var classes = {room1: []};
+var classes = {};
 
 // var routeRequest = function(method) {
 //   return Function.prototype.apply(null);
@@ -42,36 +42,47 @@ exports.handleRequest = function(request, response) {
     switch(request.method) {
       case 'GET':
 
+        if(path[1] === 'messages') {
+          // loop through classes and
+          responseData = [];
+          for(var msg in classes) {
+            responseData = responseData.concat(classes[msg]);
+          }
+          statusCode = 200;
+          break;
+          // return array message objects
+        }
+
         if(path[1] in classes) {
           responseData = classes[path[1]];
-          statusCode = 200;
         } else {
-          statusCode = 404;
+          responseData = [];
         }
+        statusCode = 200;
         break;
 
       case 'POST':
         if(path[0] !== 'classes'){
           statusCode = 404;
+          responseData = "Not found";
           break;
         }
 
         var postData = "";
         request.on('data', function (chunk) {
-          // postData += chunk.toString();
           postData = JSON.parse(chunk.toString());
-          // postData = JSON.parse(postData);
 
           if(path[1] in classes) {
             // push to classes value
-            console.log('Saving data', postData);
             classes[path[1]].push(postData);
           } else {
             // create key and create array and push
             classes[path[1]] = [postData];
           }
+
         });
 
+        responseData = "Message received";
         statusCode = 201;
         break;
 

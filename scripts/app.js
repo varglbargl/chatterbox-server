@@ -1,12 +1,13 @@
 var ChatterBox = function(){
   // this.url = 'https://api.parse.com/1/classes/chatterbox';
-  this.url = 'http://127.0.0.1:8080/classes/room1/';
+  // this.url = 'http://127.0.0.1:8080/classes/room1/';
   this.numMessages = 10;
   // this.username = (prompt('What is your name?') || 'anonymous');
   this.username = 'anonymous';
-  this.room = undefined;
+  this.room = 'messages';
   this.friends = {};
   this.roomList = {};
+  this.url = 'http://127.0.0.1:8080/classes/' + this.room + '/';
 };
 
 ChatterBox.prototype.ajax = function(options) {
@@ -52,7 +53,11 @@ ChatterBox.prototype.getMessages = function() {
     data: query,
     type: 'GET',
     success: function(data){
-      that.messageDisplay(data.results);
+      // console.log(data);
+      data = JSON.parse(data);
+      // console.log(data);
+      // that.messageDisplay(data.results);
+      that.messageDisplay(data);
     }
   });
 
@@ -90,7 +95,7 @@ ChatterBox.prototype.roomDisplay = function() {
 ChatterBox.prototype.postMessage = function(username, message, roomname) {
   var that = this;
 
-  return this.ajax({
+  this.ajax({
     url: that.url,
     type: 'POST',
     contentType: 'application/json',
@@ -102,6 +107,8 @@ ChatterBox.prototype.postMessage = function(username, message, roomname) {
       return false;
     }
   });
+
+  return true;
 };
 
 ChatterBox.prototype.messageDisplay = function(messages) {
@@ -110,7 +117,6 @@ ChatterBox.prototype.messageDisplay = function(messages) {
   // messages = messages.reverse();
 
   var results = [];
-
   _.each(messages, function(message) {
 
     var classes = "username";
@@ -171,7 +177,6 @@ $(document).ready(function() {
 
     chat.room = $(this).find('input').val();
   });
-
 
   chat.roomDisplay();
   chat.getMessages();
